@@ -28,8 +28,10 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createStartDateHtml() {
+    const point = this.state;
+
     return html`
-      <time class="event__date" datetime="2019-03-18">MAR 18</time>
+      <time class="event__date" datetime="${point.startDateTime}">${point.startDate}</time>
     `;
   }
 
@@ -37,9 +39,12 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createTypeIconHtml() {
+    const point = this.state;
+    const type = point.types.find((it) => it.isSelected);
+
     return html`
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type.value}.png" alt="Event type icon">
       </div>
     `;
   }
@@ -48,8 +53,12 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createDestinationHtml() {
+    const point = this.state;
+    const type = point.types.find((it) => it.isSelected);
+    const destination = point.destinations.find((it) => it.isSelected);
+
     return html`
-      <h3 class="event__title">Taxi Amsterdam</h3>
+      <h3 class="event__title">${type.value} ${destination.name}</h3>
     `;
   }
 
@@ -57,14 +66,16 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createScheduleHtml() {
+    const point = this.state;
+
     return html`
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+          <time class="event__start-time" datetime="${point.startDateTime}">${point.startTime}</time>
           —
-          <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+          <time class="event__end-time" datetime="${point.endDateTime}">${point.endTime}</time>
         </p>
-        <p class="event__duration">30M</p>
+        <p class="event__duration">${point.duration}</p>
       </div>
     `;
   }
@@ -73,9 +84,11 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createPriceHtml() {
+    const point = this.state;
+
     return html`
       <p class="event__price">
-        €&nbsp;<span class="event__price-value">20</span>
+        €&nbsp;<span class="event__price-value">${point.basePrice}</span>
       </p>
     `;
   }
@@ -84,14 +97,23 @@ class CardView extends View {
    * @return {SafeHtml}
    */
   createOfferListHtml() {
+    const point = this.state;
+    const offers = point.offers.filter((it) => it.isSelected);
+
+    if (!offers.length) {
+      return '';
+    }
+
     return html`
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
-          +€&nbsp;
-          <span class="event__offer-price">20</span>
-        </li>
+        ${offers.map((it) => html`
+          <li class="event__offer">
+            <span class="event__offer-title">${it.title}</span>
+            +€&nbsp;
+            <span class="event__offer-price">${it.price}</span>
+          </li>
+        `)}
       </ul>
     `;
   }
