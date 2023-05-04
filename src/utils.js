@@ -1,4 +1,35 @@
 import {escape as escapeHtml} from 'he';
+import dayjs from 'dayjs';
+import durationPlugin from 'dayjs/plugin/duration.js';
+
+dayjs.extend(durationPlugin);
+
+/**
+ * @param {string} dateTime
+ * @return {string}
+ */
+function formatDate(dateTime) {
+  return dayjs(dateTime).format('MMM D');
+}
+
+/**
+ * @param {string} dateTime
+ * @return {string}
+ */
+function formatTime(dateTime) {
+  return dayjs(dateTime).format('HH:mm');
+}
+
+/**
+ * @param {string} startDateTime
+ * @param {string} endDateTime
+ * @return {string}
+ */
+function formatDuration(startDateTime, endDateTime) {
+  const ms = dayjs(endDateTime).diff(startDateTime);
+
+  return dayjs.duration(ms).format('HH[h] mm[m]');
+}
 
 class SafeHtml extends String {}
 
@@ -25,4 +56,4 @@ function html(strings, ...values) {
   return new SafeHtml(result);
 }
 
-export {SafeHtml, html};
+export {formatDate, formatTime, formatDuration, SafeHtml, html};
