@@ -22,6 +22,20 @@ class View extends HTMLElement {
   createHtml() {
     return null;
   }
+
+  /**
+   * @param {string} type
+   * @param {any} [detail]
+   * @return {boolean}
+   */
+  notify(type, detail = null) {
+    const cancelable = true;
+    const bubbles = true;
+    const event = new CustomEvent(type, {detail, cancelable, bubbles});
+
+    return this.dispatchEvent(event);
+  }
+
 }
 
 export default View;
