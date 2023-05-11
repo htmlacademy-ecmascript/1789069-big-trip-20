@@ -14,6 +14,50 @@
  */
 
 /**
+ * @typedef BriefViewState
+ * @prop {string} places
+ * @prop {string} dates
+ * @prop {string} cost
+ */
+
+/**
+ * @typedef AddViewState
+ * @prop {boolean} isDisabled
+ */
+
+/**
+ * @typedef FilterViewState
+ * @prop {Array<FilterItemViewState>} items
+ */
+
+/**
+ * @typedef FilterItemViewState
+ * @prop {FilterType} value
+ * @prop {boolean} isSelected
+ * @prop {boolean} isDisabled
+ */
+
+/**
+ * @typedef {'everything' | 'future' | 'present' | 'past'} FilterType
+ */
+
+/**
+ * @typedef SortViewState
+ * @prop {Array<SortItemViewState>} items
+ */
+
+/**
+ * @typedef SortItemViewState
+ * @prop {SortType} value
+ * @prop {boolean} isSelected
+ * @prop {boolean} isDisabled
+ */
+
+/**
+ * @typedef {'day' | 'event' | 'time' | 'price' | 'offers'} SortType
+ */
+
+/**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
  */
