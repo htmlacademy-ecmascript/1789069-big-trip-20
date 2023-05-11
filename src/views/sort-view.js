@@ -1,6 +1,9 @@
 import View from './view.js';
 import {html} from '../utils.js';
 
+/**
+ * @extends {View<SortViewState>}
+ */
 class SortView extends View {
   constructor() {
     super();
@@ -13,29 +16,19 @@ class SortView extends View {
    */
   createHtml() {
     return html`
-      <div class="trip-sort__item  trip-sort__item--day">
-        <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" checked="">
-        <label class="trip-sort__btn" for="sort-day">Day</label>
-      </div>
+      ${this.state.items.map(this.createItemHtml)}
+    `;
+  }
 
-      <div class="trip-sort__item  trip-sort__item--event">
-        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled="">
-        <label class="trip-sort__btn" for="sort-event">Event</label>
-      </div>
-
-      <div class="trip-sort__item  trip-sort__item--time">
-        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
-        <label class="trip-sort__btn" for="sort-time">Time</label>
-      </div>
-
-      <div class="trip-sort__item  trip-sort__item--price">
-        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price">
-        <label class="trip-sort__btn" for="sort-price">Price</label>
-      </div>
-
-      <div class="trip-sort__item  trip-sort__item--offer">
-        <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled="">
-        <label class="trip-sort__btn" for="sort-offer">Offers</label>
+  /**
+   * @param {SortItemViewState} state
+   * @return {SafeHtml}
+   */
+  createItemHtml(state) {
+    return html`
+      <div class="trip-sort__item  trip-sort__item--${state.value}">
+        <input ${state.isSelected ? 'checked' : ''} ${state.isDisabled ? 'disabled' : ''} id="sort-${state.value}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="${state.value}">
+        <label class="trip-sort__btn" for="sort-${state.value}">${state.value}</label>
       </div>
     `;
   }
