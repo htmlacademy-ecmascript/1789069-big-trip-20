@@ -51,6 +51,10 @@ function html(strings, ...values) {
   const result = strings.reduce((before, after, index) => {
     const value = values[index - 1];
 
+    if (value === undefined) {
+      return before + after;
+    }
+
     if (Array.isArray(value) && value.every((it) => it instanceof SafeHtml)) {
       return before + value.join('') + after;
     }
