@@ -2,3 +2,6 @@
   text-transform: capitalize;
 }
 
+.event__photos-container {
+  overflow-x: auto;
+}

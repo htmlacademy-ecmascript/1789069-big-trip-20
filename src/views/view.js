@@ -12,8 +12,16 @@ class View extends HTMLElement {
     this.state = null;
   }
 
-  render() {
-    this.innerHTML = String(this.createHtml());
+  /**
+   * @param {string} [selector]
+   * @param {SafeHtml} [outerHtml]
+   */
+  render(selector, outerHtml) {
+    if (arguments.length === 2) {
+      this.querySelector(selector).outerHTML = String(outerHtml);
+    } else {
+      this.innerHTML = String(this.createHtml());
+    }
   }
 
   /**
