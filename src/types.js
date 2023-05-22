@@ -1,4 +1,8 @@
 /**
+ * @typedef {import('flatpickr/dist/types/options').Options} FlatpickrOptions
+ */
+
+/**
  * @typedef {import('./utils.js').SafeHtml} SafeHtml
  */
 
