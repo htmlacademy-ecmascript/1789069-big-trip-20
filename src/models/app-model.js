@@ -44,11 +44,30 @@ class AppModel extends Model {
   /**
    * @param {Point} point
    */
+  addPoint(point) {
+    const adaptedPoint = AppModel.adaptPointForServer(point);
+
+    adaptedPoint.id = crypto.randomUUID();
+    this.#points.push(adaptedPoint);
+  }
+
+  /**
+   * @param {Point} point
+   */
   updatePoint(point) {
     const adaptedPoint = AppModel.adaptPointForServer(point);
-    const index = this.#points.findIndex((it) => it.id === point.id);
+    const index = this.#points.findIndex((it) => it.id === adaptedPoint.id);
 
     this.#points.splice(index, 1, adaptedPoint);
+  }
+
+  /**
+   * @param {string} id
+   */
+  deletePoint(id) {
+    const index = this.#points.findIndex((it) => it.id === id);
+
+    this.#points.splice(index, 1);
   }
 
   /**
