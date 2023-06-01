@@ -18,6 +18,8 @@ class EditorView extends View {
 
     this.addEventListener('click', this.handleClick);
     this.addEventListener('input', this.handleInput);
+    this.addEventListener('submit', this.handleSubmit);
+    this.addEventListener('reset', this.handleReset);
   }
 
   connectedCallback() {
@@ -61,6 +63,29 @@ class EditorView extends View {
    */
   handleInput(event) {
     this.notify('edit', event.target);
+  }
+
+  /**
+   * @param {SubmitEvent} event
+   */
+  handleSubmit(event) {
+    const actByDefault = this.notify('save');
+
+    if (!actByDefault) {
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * @param {Event} event
+   */
+  handleReset(event) {
+    const point = this.state;
+    const actByDefault = this.notify(point.isDraft ? 'close' : 'delete');
+
+    if (!actByDefault) {
+      event.preventDefault();
+    }
   }
 
   /**
@@ -169,7 +194,7 @@ class EditorView extends View {
           <span class="visually-hidden">Price</span>
           €
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.basePrice}">
+        <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${point.basePrice}">
       </div>
     `;
   }
@@ -187,6 +212,14 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createResetButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return html`
+        <button class="event__reset-btn" type="reset">Cancel</button>
+      `;
+    }
+
     return html`
       <button class="event__reset-btn" type="reset">Delete</button>
     `;
@@ -196,6 +229,12 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createCloseButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return '';
+    }
+
     return html`
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Close event</span>
@@ -216,7 +255,7 @@ class EditorView extends View {
         <div class="event__available-offers">
           ${point.offers.map((it) => html`
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-${it.id}" type="checkbox" name="event-offer" ${it.isSelected ? 'checked' : ''}>
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-${it.id}" type="checkbox" name="event-offer" value=${it.id} ${it.isSelected ? 'checked' : ''}>
               <label class="event__offer-label" for="event-offer-${it.id}">
                 <span class="event__offer-title">${it.title}</span>
                 +€&nbsp;
