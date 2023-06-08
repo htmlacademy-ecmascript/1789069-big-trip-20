@@ -44,6 +44,21 @@ class View extends HTMLElement {
     return this.dispatchEvent(event);
   }
 
+  /**
+   * @param {KeyframeAnimationOptions} [options]
+   */
+  shake(options) {
+    const keyframes = {
+      transform: [0, -5, 0, 5, 0].map((it) => `translateX(${it}px)`)
+    };
+
+    return this.animate(keyframes, {
+      duration: 150,
+      iterations: 4,
+      ...options
+    });
+  }
+
 }
 
 export default View;
