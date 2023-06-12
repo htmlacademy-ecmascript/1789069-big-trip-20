@@ -23,10 +23,10 @@ const appModel = new AppModel(apiService);
 new PlaceholderPresenter(document.querySelector('placeholder-view'), appModel);
 
 appModel.load().then(() => {
-  new BriefPresenter(document.querySelector('brief-view'));
+  new BriefPresenter(document.querySelector('brief-view'), appModel);
   new AddPresenter(document.querySelector('add-view'));
-  new FilterPresenter(document.querySelector('filter-view'));
-  new SortPresenter(document.querySelector('sort-view'));
+  new FilterPresenter(document.querySelector('filter-view'), appModel);
+  new SortPresenter(document.querySelector('sort-view'), appModel);
   new ListPresenter(document.querySelector('list-view'), appModel);
   new OverlayPresenter(document.querySelector('overlay-view'), appModel);
 });
