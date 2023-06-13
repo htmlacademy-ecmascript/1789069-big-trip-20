@@ -24,11 +24,16 @@ class BriefPresenter extends Presenter {
   getPlaces() {
     const points = this.model.getPoints();
     const destinations = this.model.getDestinations();
+    const names = [];
 
-    const names = points.map((point) => {
-      const destination = destinations.find((it) => it.id === point.destinationId);
+    points.forEach((point, index) => {
+      const nextPoint = points[index + 1];
 
-      return destination.name;
+      if (point.destinationId !== nextPoint?.destinationId) {
+        const destination = destinations.find((it) => it.id === point.destinationId);
+
+        names.push(destination.name);
+      }
     });
 
     if (names.length > 3) {
